@@ -60,3 +60,15 @@ La PR est volontairement **draft**. Aucun GO staging, G1 ou production n'est dem
 - [Audit G0 final](../gates/G0_FINAL_ACCEPTANCE_AUDIT.md)
 - [ADR-003 Headless](../adr/ADR-003-headless-browser-and-username-policy.md)
 - [ADR-004 Browser TS](../adr/ADR-004-typed-browser-client.md)
+
+## 7. IDR-005/P2 - Politique Django et vérifications sans déploiement HTTPS
+
+Le socle P2 explicite désormais dans `config.settings.base` des cookies **host-only**, `SameSite=Lax`, `HttpOnly=True` pour la session et `HttpOnly=False` pour le CSRF (le client TypeScript lit `csrftoken`). Le stockage reste `django.contrib.sessions.backends.db` et aucune exception cross-origin CSRF n'est ajoutée.
+
+Le profil `config.settings.staging` impose `Secure=True` sur les deux cookies et exige `DJANGO_ALLOWED_HOSTS` exactement égal à l'hôte de `FRONTEND_ORIGIN=https://...`, sans wildcard ni domaine local. Le profil local/test conserve les cookies non Secure pour les essais HTTP loopback.
+
+Le middleware `ValidateHostMiddleware` force `request.get_host()` sur **toutes les routes**, y compris `/health/`, afin que `ALLOWED_HOSTS` soit effectivement appliqué à toutes les réponses.
+
+**Frontière de confiance volontairement non ouverte :** `SECURE_PROXY_SSL_HEADER=None`, `USE_X_FORWARDED_HOST=False`, `USE_X_FORWARDED_PORT=False`, HSTS=0 et pas de redirection TLS forcée tant que P3 n'a pas identifié et vérifié le reverse proxy réel. Activer un de ces mécanismes sur un proxy non maîtrisé pourrait créer des failles ou des boucles de redirection.
+
+Tests backend ajoutés pour la politique, les Hosts adversariaux, les headers non approuvés et les attributs de vrais cookies Django avec paramètres Secure simulés. **Ils ne constituent pas une preuve HTTPS staging**. L'endpoint CSRF dédié et les rotations réelles demeurent IDR-006.

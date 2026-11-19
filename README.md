@@ -155,3 +155,9 @@ Les endpoints `http://localhost:3000/health/`, `http://localhost:3000/_allauth/b
 L'origine staging, son reverse proxy de confiance, TLS, cookies host-only et la gestion `X-Forwarded-*` sont **encore à sélectionner et démontrer**. Ne pas activer `SECURE_PROXY_SSL_HEADER` pour masquer une absence de TLS.
 
 **Preuve de routage P1 local :** [IDR005_LOCAL_PROXY_DECISION_AND_EVIDENCE.md](docs/architecture/IDR005_LOCAL_PROXY_DECISION_AND_EVIDENCE.md) et [CI HTTP réelle](https://github.com/tawounfouet/identity-reference-poc/actions/runs/44617239754). Cette étape n'autorise pas encore le déploiement de staging.
+
+### IDR-005 P2 : cookies, Host et limites
+
+Les settings Django déclarent explicitement `sessionid` comme cookie HttpOnly, `csrftoken` comme cookie lisible par le client JavaScript, tous deux `SameSite=Lax` et host-only. Les cookies sont non Secure **uniquement dans les profils locaux/tests HTTP**. Staging exige une origine HTTPS exacte, un `DJANGO_ALLOWED_HOSTS` correspondant, et émet les deux cookies avec `Secure=True`.
+
+La validation `ALLOWED_HOSTS` s'exécute désormais pour chaque requête, même sur `/health/`. Aucun en-tête `X-Forwarded-*` n'est implicitement approuvé en P2 ; définir un proxy TLS de confiance et inspecter les cookies réellement reçus sur HTTPS restent P3. La création de l'endpoint CSRF et la rotation après login restent IDR-006.
