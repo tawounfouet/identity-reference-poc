@@ -72,3 +72,9 @@ Le middleware `ValidateHostMiddleware` force `request.get_host()` sur **toutes l
 **Frontière de confiance volontairement non ouverte :** `SECURE_PROXY_SSL_HEADER=None`, `USE_X_FORWARDED_HOST=False`, `USE_X_FORWARDED_PORT=False`, HSTS=0 et pas de redirection TLS forcée tant que P3 n'a pas identifié et vérifié le reverse proxy réel. Activer un de ces mécanismes sur un proxy non maîtrisé pourrait créer des failles ou des boucles de redirection.
 
 Tests backend ajoutés pour la politique, les Hosts adversariaux, les headers non approuvés et les attributs de vrais cookies Django avec paramètres Secure simulés. **Ils ne constituent pas une preuve HTTPS staging**. L'endpoint CSRF dédié et les rotations réelles demeurent IDR-006.
+
+## 8. Choix fail-closed final et preuve P2 en CI
+
+Les cookies `SESSION_COOKIE_SECURE` et `CSRF_COOKIE_SECURE` sont **True par défaut** dans `base.py`. Seuls `local.py` et `test.py` les désactivent explicitement pour les tests HTTP loopback. Le profil staging les impose également à `True` sans domaine partagé.
+
+[CI P2 avant durcissement du défaut](https://github.com/tawounfouet/identity-reference-poc/actions/runs/44621617636) : 33 tests Python réussis, 16 tests frontend, 3/3 jobs au vert. Cette preuve n'est pas un test TLS staging. Le durcissement final des defaults doit être validé par la prochaine CI sur la version finale du commit.

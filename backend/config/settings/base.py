@@ -94,13 +94,13 @@ SESSION_COOKIE_PATH = "/"
 SESSION_COOKIE_DOMAIN = None
 SESSION_COOKIE_HTTPONLY = True
 SESSION_COOKIE_SAMESITE = "Lax"
-SESSION_COOKIE_SECURE = False  # Local/test only; staging overrides to True.
+SESSION_COOKIE_SECURE = True  # Secure by default; only local/test override.
 CSRF_COOKIE_NAME = "csrftoken"
 CSRF_COOKIE_PATH = "/"
 CSRF_COOKIE_DOMAIN = None
 CSRF_COOKIE_HTTPONLY = False  # Required by the existing browser CSRF reader.
 CSRF_COOKIE_SAMESITE = "Lax"
-CSRF_COOKIE_SECURE = False  # Local/test only; staging overrides to True.
+CSRF_COOKIE_SECURE = True  # Secure by default; only local/test override.
 CSRF_USE_SESSIONS = False
 CSRF_TRUSTED_ORIGINS = []  # Same-origin requests do not need an exception.
 

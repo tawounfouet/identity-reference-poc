@@ -20,10 +20,12 @@ from django.test import Client, RequestFactory, override_settings
 def test_cookie_policy_and_proxy_trust_are_explicit_in_the_local_baseline():
     assert settings.SESSION_ENGINE == "django.contrib.sessions.backends.db"
     assert settings.SESSION_COOKIE_NAME == "sessionid"
+    assert settings.SESSION_COOKIE_SECURE is False  # Explicit test-only exception
     assert settings.SESSION_COOKIE_HTTPONLY is True
     assert settings.SESSION_COOKIE_SAMESITE == "Lax"
     assert settings.SESSION_COOKIE_DOMAIN is None
     assert settings.CSRF_COOKIE_NAME == "csrftoken"
+    assert settings.CSRF_COOKIE_SECURE is False  # Explicit test-only exception
     assert settings.CSRF_COOKIE_HTTPONLY is False
     assert settings.CSRF_COOKIE_SAMESITE == "Lax"
     assert settings.CSRF_COOKIE_DOMAIN is None
