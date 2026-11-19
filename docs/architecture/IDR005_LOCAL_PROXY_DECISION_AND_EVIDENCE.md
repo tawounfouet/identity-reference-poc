@@ -2,7 +2,7 @@
 
 > Date : 2026-11-19
 > Ticket : [IDR-005 #14](https://github.com/tawounfouet/identity-reference-poc/issues/14)
-> PR : [#15 - brouillon](https://github.com/tawounfouet/identity-reference-poc/pull/15)
+> PR : [#15 - livraison partielle P1/P2](https://github.com/tawounfouet/identity-reference-poc/pull/15)
 > État : **P1 LOCAL DEMONSTRATED, STAGING/TLS/COOKIES NOT VALIDATED**
 > Gate G0 : PASSED (socle local seulement). Gate G1 : **NO-GO**, toujours en cours.
 
@@ -52,7 +52,7 @@ La preuve est limitée au **routage et au contenu HTTP local sur protocole HTTP*
 
 ## 5. Limites de cette PR
 
-La PR est volontairement **draft**. Aucun GO staging, G1 ou production n'est demandé. Toute CI verte n'est pas une preuve d'un cookie sécurisé sur un domaine HTTPS inconnu.
+La PR initialement **draft** est désormais examinée pour une **fusion P1/P2 uniquement**. Aucun GO staging, G1 ou production n'est demandé. Toute CI verte n'est pas une preuve d'un cookie sécurisé sur un domaine HTTPS inconnu.
 
 ## 6. Références
 
@@ -85,4 +85,10 @@ Les cookies `SESSION_COOKIE_SECURE` et `CSRF_COOKIE_SECURE` sont **True par déf
 
 Le profil staging a été instancié dans des processus Python séparés : une origine HTTPS canonique et une liste d'hôtes strictement égale au hostname sont acceptées ; neuf combinaisons d'origines/hôtes dangereuses sont rejetées. Les attributs des cookies et la non-confiance envers les en-têtes de proxy non vérifiés ont été contrôlés.
 
-La validation porte sur la **configuration Django et la simulation des cookies sécurisés**, pas sur l'émission réelle des cookies depuis une origine HTTPS de staging, qui reste non disponible. **P3/P4/P5 demeurent obligatoires, PR toujours draft, G1 NO-GO**.
+La validation porte sur la **configuration Django et la simulation des cookies sécurisés**, pas sur l'émission réelle des cookies depuis une origine HTTPS de staging, qui reste non disponible. **P3/P4/P5 demeurent obligatoires, issue #14 ouverte, G1 NO-GO**.
+
+## 10. Revue de portée avant fusion partielle
+
+L'intégration de la PR #15 dans `main` signifie uniquement : **P1 (proxy HTTP loopback) + P2 (politique Django, Host et cookies testée à la compilation et en CI)**. Le jalon technique complet `IDR-005` n'est **pas** clôturé.
+
+Le contrat de staging (DNS, TLS, fournisseur, origines, proxy de confiance, en-têtes, cookies réellement émis, cache, redirections) est réservé à une PR ultérieure et demeure un NO-GO. Voir [IDR_005_P1_P2_ACCEPTANCE_AND_HANDOFF.md](../reviews/IDR_005_P1_P2_ACCEPTANCE_AND_HANDOFF.md).
