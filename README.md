@@ -55,7 +55,7 @@ Aucun écran de connexion fonctionnel n'est annoncé pendant IDR-001.
 
 ## Verrouillage et CI
 
-Les fichiers `backend/uv.lock` et `frontend/pnpm-lock.yaml` sont générés depuis des registres de paquets par le workflow [bootstrap-lockfiles](.github/workflows/bootstrap-lockfiles.yml), puis committés sur la branche de ticket. La CI de PR refuse toute installation non verrouillée et exécute les vérifications de chaque stack.
+Les fichiers `backend/uv.lock` et `frontend/pnpm-lock.yaml` ont été générés depuis les registres de paquets, puis committés sur la branche de ticket par le [workflow de bootstrap, exécuté avec succès](https://github.com/tawounfouet/identity-reference-poc/actions/runs/44503449515). Le workflow temporaire doté de permissions d'écriture a ensuite été retiré. La CI de PR refuse toute installation non verrouillée et exécute les vérifications de chaque stack.
 
 Les versions de première sélection sont documentées dans [ADR-001](docs/adr/ADR-001-bootstrap-toolchain.md). Aucune clé ou donnée personnelle ne doit être committée.
 
