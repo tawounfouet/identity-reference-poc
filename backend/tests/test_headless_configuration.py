@@ -38,6 +38,7 @@ def test_official_browser_session_route_is_registered():
     assert match.func is not None
 
 
+@pytest.mark.django_db
 def test_headless_browser_session_endpoint_does_not_raise_server_error():
     response = Client().get("/_allauth/browser/v1/auth/session")
     assert response.status_code < 500
