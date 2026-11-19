@@ -7,7 +7,6 @@ from django.apps import apps
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import UserManager
 from django.db import IntegrityError
-from django.test import override_settings
 
 
 def test_custom_user_is_registered():
