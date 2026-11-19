@@ -9,6 +9,17 @@
 > **Source principale :** `R1_DJANGO_ALLAUTH_HEADLESS_REACT_REFERENCE_IMPLEMENTATION_AND_CONTRACTS.md` (R1, sections 00 à 21)  
 > **Sources complémentaires :** documentation officielle django-allauth Headless, OpenAPI et notes de version, à revérifier lors de G0
 
+### Suivi opérationnel du 19/11/2026 (IDR-001)
+
+- Ticket IDR-001 : **IN_REVIEW** dans [PR #2](https://github.com/tawounfouet/identity-reference-poc/pull/2).
+- Branch : `chore/idr-001-bootstrap` ; lockfiles `backend/uv.lock` et `frontend/pnpm-lock.yaml` réellement committés.
+- [Génération des locks](https://github.com/tawounfouet/identity-reference-poc/actions/runs/44503449515) : SUCCESS.
+- [CI Django / Next.js initiale](https://github.com/tawounfouet/identity-reference-poc/actions/runs/44503580221) : SUCCESS sur `00d4d8bb12f5e7219a3a412414bc37e256ae2476`.
+- **Ne pas confondre ticket IDR-001 et gate G0.** G0 reste NON VALIDÉ : IDR-002, IDR-003 et IDR-004 sont encore à réaliser. L'issue reste ouverte tant que la PR n'est pas revue/fusionnée.
+- Aucun modèle User personnalisé, aucune migration, aucun parcours allauth activé pendant IDR-001.
+
+---
+
 ## 00. Mission, principes et résultat attendu
 
 ### 00.1 Mission
@@ -496,7 +507,7 @@ Les IDs `IDR-001` à `IDR-017` sont **conservés tels quels** du backlog R1. Les
 
 | Ticket | Gate | Priorité R1 | Deliverable / Definition of Done abrégée | Dépend de | État |
 |---|---|---|---|---|---|
-| IDR-001 | G0 | P0 | Monorepo, README, versions, lockfiles, CI bootstrap | - | TODO |
+| IDR-001 | G0 | P0 | Monorepo, README, versions, lockfiles, CI bootstrap | - | IN_REVIEW |
 | IDR-002 | G0 | P0 | Custom User défini, migrations propres, décision login | 001 | TODO |
 | IDR-003 | G0 | P0 | allauth Headless installé, URLConf et OpenAPI locale exportée | 001, 002 | TODO |
 | IDR-004 | G0 | P0 | Client TS, types contractuels et mapping `flows/meta` testés | 003 | TODO |
