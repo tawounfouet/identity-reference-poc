@@ -76,3 +76,42 @@ jobs:
         run: pnpm build
         env:
           NEXT_TELEMETRY_DISABLED: "1"
+
+  local-proxy:
+    name: Local Next.js/Django same-origin HTTP smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.10.0"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: pnpm/action-setup@v4
+        with:
+          version: "11.28.12"
+          run_install: false
+      - name: Install locked Python and Node dependencies
+        run: |
+          (cd backend && uv sync --locked --group dev)
+          (cd frontend && pnpm install --frozen-lockfile)
+      - name: Bootstrap a disposable local DB and smoke both servers
+        run: |
+          set -euo pipefail
+          (cd backend && uv run --locked python manage.py migrate --noinput --settings=config.settings.local)
+          (cd backend && uv run --locked python manage.py runserver 127.0.0.1:8000 --noreload --settings=config.settings.local > /tmp/idr005-django.log 2>&1) &
+          django_pid=$!
+          (cd frontend && DJANGO_PROXY_ORIGIN=http://127.0.0.1:8000 pnpm dev --hostname 127.0.0.1 --port 3000 > /tmp/idr005-next.log 2>&1) &
+          next_pid=$!
+          trap 'kill "$django_pid" "$next_pid" 2>/dev/null || true' EXIT
+          if ! node frontend/scripts/smoke-local-proxy.mjs; then
+            echo "Next.js startup diagnostics:"
+            tail -n 90 /tmp/idr005-next.log || true
+            echo "Django startup diagnostics:"
+            tail -n 90 /tmp/idr005-django.log || true
+            exit 1
+          fi
