@@ -4,10 +4,23 @@
 > **Document :** `ROADMAP.md`  
 > **Version documentaire :** `0.1.0`  
 > **Date de cadrage :** 19 novembre 2026  
-> **Statut :** PROPOSÉ - plan d'exécution, aucun gate validé  
+> **Statut :** EXÉCUTION - G0 PASSED pour la baseline locale ; G1 IN_PROGRESS, NO-GO staging et production  
 > **Décision provisoire :** GO pour construire le POC ; NO-GO pour la production tant que les preuves requises ne sont pas réunies  
 > **Source principale :** `R1_DJANGO_ALLAUTH_HEADLESS_REACT_REFERENCE_IMPLEMENTATION_AND_CONTRACTS.md` (R1, sections 00 à 21)  
 > **Sources complémentaires :** documentation officielle django-allauth Headless, OpenAPI et notes de version, à revérifier lors de G0
+
+### Suivi opérationnel IDR-005 - 19/11/2026
+
+- [Issue #14](https://github.com/tawounfouet/identity-reference-poc/issues/14) reste ouverte. [PR #15](https://github.com/tawounfouet/identity-reference-poc/pull/15) constitue la **livraison partielle et isolée P1/P2**, sans validation d'IDR-005 complet.
+- Plan complet versionné dans `docs/plans/IDR_005_SAME_ORIGIN_TOPOLOGY_IMPLEMENTATION_PLAN.md`.
+- **P1 local démontré** : rewrites Next.js uniquement en développement vers loopback Django ; [CI smoke HTTP réelle](https://github.com/tawounfouet/identity-reference-poc/actions/runs/44617239754) : 3/3 jobs verts.
+- **P2 configuration et cookies validés en CI** : cookies Secure par défaut (exception explicite local/test), session HttpOnly, CSRF lisible, SameSite Lax, host-only, Host hostile rejeté, aucun `X-Forwarded-*` présumé fiable ; [CI P2 finale](https://github.com/tawounfouet/identity-reference-poc/actions/runs/44621894470) : 33 tests Django + 16 tests frontend + smoke réel.
+- Les routes Django /health, /_allauth/config, /_allauth/session traversent Next.js. Session anonyme 401 attendue, pas d'authentification contournée.
+- **IDR-005 et G1 restent IN_PROGRESS / NO-GO** : aucun staging HTTPS, domaine DNS, proxy de confiance, preuve de cookies HTTPS effectifs ou test des origines hostiles de staging.
+- [Revue d'acceptation et frontières de la fusion P1/P2](docs/reviews/IDR_005_P1_P2_ACCEPTANCE_AND_HANDOFF.md) : preuves, risques et report explicite de la clôture complète d'IDR-005.
+- La topologie de staging doit être décidée explicitement avant d'entamer **P3 à P5**. Le choix DNS, TLS, fournisseur frontend/backend et modèle de confiance du proxy n'est pas encore effectué.
+
+---
 
 ### Clôture du gate G0 - 19/11/2026
 
@@ -549,7 +562,7 @@ Les IDs `IDR-001` à `IDR-017` sont **conservés tels quels** du backlog R1. Les
 | IDR-002 | G0 | P0 | Custom User défini, migrations propres, décision login | 001 | DONE (#4) |
 | IDR-003 | G0 | P0 | allauth Headless installé, URLConf et OpenAPI locale exportée | 001, 002 | DONE (#7) |
 | IDR-004 | G0 | P0 | Client TS, types contractuels et mapping `flows/meta` testés | 003 | DONE (#10) |
-| IDR-005 | G1 | P0 | Routage same-origin, TLS, cookies et session serveur démontrés | 003 | TODO |
+| IDR-005 | G1 | P0 | Routage same-origin, TLS, cookies et session serveur démontrés | 003 | IN_PROGRESS (#14) : P1/P2 livrés par PR #15 ; P3/P5 restants |
 | IDR-006 | G1 | P0 | CSRF bootstrap, négatifs et rotation post-login | 005 | TODO |
 | IDR-007 | G2 | P0 | Login, signup, session, logout et `/api/v1/me` E2E | 004, 006 | TODO |
 | IDR-008 | G2 | P0 | Vérification email, reset et reauth avec tests | 007 | TODO |
@@ -864,7 +877,7 @@ L'architecture est déclarée **réutilisable** si une nouvelle application peut
 | Gate | Progression | Tickets associés | Statut | Décision |
 |---|---:|---|---|---|
 | G0 | 100 % des tickets | 001-004 | PASSED - baseline locale uniquement | GO G0, voir audit final |
-| G1 | 0 % | 005-006 | NOT_STARTED | Aucune |
+| G1 | IDR-005 P1/P2 livrés | 005-006 | IN_PROGRESS | NO-GO, staging HTTPS et CSRF non prouvés |
 | G2 | 0 % | 007-008 | NOT_STARTED | Aucune |
 | G3 | 0 % | 009-011 | NOT_STARTED | Aucune |
 | G4 | 0 % | 012-013 | NOT_STARTED | Aucune |

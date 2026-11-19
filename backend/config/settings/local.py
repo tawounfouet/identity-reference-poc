@@ -13,3 +13,7 @@ SECRET_KEY = os.environ.get(
 FRONTEND_ORIGIN = os.environ.get("FRONTEND_ORIGIN", "http://localhost:3000")
 HEADLESS_FRONTEND_URLS = headless_frontend_urls(FRONTEND_ORIGIN)  # noqa: F405
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+# HTTP loopback development only. Never copy these flags to staging.
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_SECURE = False

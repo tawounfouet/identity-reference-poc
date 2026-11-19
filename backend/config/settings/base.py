@@ -27,6 +27,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "apps.security.middleware.ValidateHostMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -85,6 +86,32 @@ HEADLESS_ONLY = True
 HEADLESS_CLIENTS = ("browser",)
 HEADLESS_SERVE_SPECIFICATION = False
 SESSION_ENGINE = "django.contrib.sessions.backends.db"
+
+# IDR-005/P2 baseline: cookies remain host-only and Django owns the session.
+# The browser client reads the CSRF cookie, but never the session cookie.
+SESSION_COOKIE_NAME = "sessionid"
+SESSION_COOKIE_PATH = "/"
+SESSION_COOKIE_DOMAIN = None
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = "Lax"
+SESSION_COOKIE_SECURE = True  # Secure by default; only local/test override.
+CSRF_COOKIE_NAME = "csrftoken"
+CSRF_COOKIE_PATH = "/"
+CSRF_COOKIE_DOMAIN = None
+CSRF_COOKIE_HTTPONLY = False  # Required by the existing browser CSRF reader.
+CSRF_COOKIE_SAMESITE = "Lax"
+CSRF_COOKIE_SECURE = True  # Secure by default; only local/test override.
+CSRF_USE_SESSIONS = False
+CSRF_TRUSTED_ORIGINS = []  # Same-origin requests do not need an exception.
+
+# Never trust proxy-supplied headers until its actual topology, cleaning
+# behavior and trust boundary are proven in staging. See IDR-005 P3.
+SECURE_PROXY_SSL_HEADER = None
+USE_X_FORWARDED_HOST = False
+USE_X_FORWARDED_PORT = False
+SECURE_HSTS_SECONDS = 0
+SECURE_SSL_REDIRECT = False  # P3 owns real HTTPS termination and redirects.
+
 
 
 def headless_frontend_urls(origin: str) -> dict[str, str]:
