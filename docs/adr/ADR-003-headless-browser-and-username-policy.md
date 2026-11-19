@@ -1,7 +1,7 @@
 # ADR-003 - Headless navigateur, politique username et snapshot OpenAPI
 
 - Date : 19 novembre 2026
-- Statut : implémentation proposée, validation par PR et CI obligatoire
+- Statut : accepté et implémenté, PR #7 fusionnée et CI verte
 - Dépendances : ADR-002, R1 §05, ROADMAP gate G0
 
 ## Décisions
@@ -31,6 +31,13 @@
 - Tests enregistrant les URLs, la politique username, l'absence de client app et la désactivation de signup
 - Export OpenAPI réel et comparaison byte-for-byte dans GitHub Actions
 - Aucune clé OAuth ou secret de production dans Git
+
+## Preuves d'acceptation
+
+- [PR #7 - Fusion IDR-003](https://github.com/tawounfouet/identity-reference-poc/pull/7)
+- [CI finale - 18 tests et OpenAPI sans dérive](https://github.com/tawounfouet/identity-reference-poc/actions/runs/44599483827)
+- [Génération de l'OpenAPI](https://github.com/tawounfouet/identity-reference-poc/actions/runs/44598118591)
+- Workflow éphémère `contents:write` supprimé après exécution.
 
 ## Références officielles
 
