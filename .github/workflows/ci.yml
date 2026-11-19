@@ -31,7 +31,15 @@ jobs:
         run: test -f uv.lock
       - name: Frozen Python installation
         run: uv sync --locked --group dev
-      - name: Django system checks (no migrate)
+      - name: Generate first Identity migration for review (temporary)
+        run: |
+          uv run --locked python manage.py makemigrations identities --noinput --settings=config.settings.test
+          echo '==== BEGIN GENERATED IDENTITY MIGRATION ===='
+          cat apps/identities/migrations/0001_initial.py
+          echo '==== END GENERATED IDENTITY MIGRATION ===='
+      - name: Apply initial migrations to a disposable CI database
+        run: uv run --locked python manage.py migrate --noinput --settings=config.settings.test
+      - name: Django system checks
         run: uv run --locked python manage.py check --settings=config.settings.test
       - name: Bootstrap smoke test
         run: uv run --locked pytest
