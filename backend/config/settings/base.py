@@ -17,6 +17,7 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.staticfiles",
+    "apps.identities.apps.IdentitiesConfig",
 ]
 
 MIDDLEWARE = [
@@ -55,5 +56,6 @@ LANGUAGE_CODE = "fr-fr"
 STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# IDR-002 must define AUTH_USER_MODEL *before any migration*.
+AUTH_USER_MODEL = "identities.User"
+
 # IDR-003 will enable allauth.apps, middleware, URLs, and headless contracts.
