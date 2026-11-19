@@ -16,8 +16,13 @@ INSTALLED_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
+    "django.contrib.messages",
     "django.contrib.staticfiles",
     "apps.identities.apps.IdentitiesConfig",
+    "allauth",
+    "allauth.account",
+    "allauth.headless",
+    "allauth.socialaccount",
 ]
 
 MIDDLEWARE = [
@@ -26,6 +31,8 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -37,6 +44,7 @@ TEMPLATES = [
         "OPTIONS": {"context_processors": [
             "django.template.context_processors.request",
             "django.contrib.auth.context_processors.auth",
+            "django.contrib.messages.context_processors.messages",
         ]},
     }
 ]
@@ -58,4 +66,41 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "identities.User"
 
-# IDR-003 will enable allauth.apps, middleware, URLs, and headless contracts.
+# Django login routes are handled by the allauth backend. No unthrottled
+# ModelBackend admin login is exposed in this POC.
+AUTHENTICATION_BACKENDS = ["allauth.account.auth_backends.AuthenticationBackend"]
+
+# IDR-003: existing username credentials only. Email-only login is NOT
+# enabled while AbstractUser.email is non-unique. Public signup is disabled.
+ACCOUNT_LOGIN_METHODS = {"username"}
+ACCOUNT_SIGNUP_FIELDS = ["username*", "email*", "password1*", "password2*"]
+ACCOUNT_SIGNUP_ENABLED = False
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_CONFIRM_EMAIL_ON_GET = False
+ACCOUNT_LOGOUT_ON_GET = False
+ACCOUNT_EMAIL_VERIFICATION_BY_CODE_ENABLED = False
+
+# Browser API with the built-in server-side Django session strategy.
+HEADLESS_ONLY = True
+HEADLESS_CLIENTS = ("browser",)
+HEADLESS_SERVE_SPECIFICATION = False
+SESSION_ENGINE = "django.contrib.sessions.backends.db"
+
+
+def headless_frontend_urls(origin: str) -> dict[str, str]:
+    """URLs owned by the frontend. This is not an OAuth redirect allowlist."""
+    origin = origin.rstrip("/")
+    if not origin:
+        raise ValueError("FRONTEND_ORIGIN must be configured")
+    return {
+        "account_confirm_email": f"{origin}/account/verify-email/{{key}}",
+        "account_reset_password": f"{origin}/account/password/reset",
+        "account_reset_password_from_key": f"{origin}/account/password/reset/key/{{key}}",
+        "account_signup": f"{origin}/account/signup",
+        "socialaccount_login_error": f"{origin}/account/provider/callback",
+    }
+
+
+# Set by local/test/staging profiles, never to a hardcoded public domain.
+HEADLESS_FRONTEND_URLS = {}
+
