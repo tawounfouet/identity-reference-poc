@@ -20,6 +20,16 @@
 
 ---
 
+### Suivi opérationnel IDR-003 (19/11/2026)
+
+- [PR #7 fusionnée](https://github.com/tawounfouet/identity-reference-poc/pull/7), issue #6 clôturée.
+- `HEADLESS_ONLY=True`, `HEADLESS_CLIENTS=("browser",)`, session Django côté serveur, login username uniquement et inscriptions désactivées.
+- [CI finale IDR-003](https://github.com/tawounfouet/identity-reference-poc/actions/runs/44599483827) : Django, 18 tests, migrations, Ruff, dérive OpenAPI et frontend vérifiés (SUCCESS).
+- Snapshot de 22 endpoints browser produit à partir d'allauth 65.22.1 ; les UUID aléatoires d'exemple sont normalisés pour assurer la déterminisme.
+- Aucun OAuth, MFA, login frontend Next.js, CORS cross-origin, ni sécurité same-origin finalisée. **G0 reste ouvert** jusqu'au contrat client TypeScript IDR-004.
+
+---
+
 ### Suivi opérationnel IDR-002 (19/11/2026)
 
 - Branche : `feat/idr-002-custom-user` ; [PR #4 fusionnée](https://github.com/tawounfouet/identity-reference-poc/pull/4), [issue #3](https://github.com/tawounfouet/identity-reference-poc/issues/3).
@@ -519,7 +529,7 @@ Les IDs `IDR-001` à `IDR-017` sont **conservés tels quels** du backlog R1. Les
 |---|---|---|---|---|---|
 | IDR-001 | G0 | P0 | Monorepo, README, versions, lockfiles, CI bootstrap | - | DONE (#2) |
 | IDR-002 | G0 | P0 | Custom User défini, migrations propres, décision login | 001 | DONE (#4) |
-| IDR-003 | G0 | P0 | allauth Headless installé, URLConf et OpenAPI locale exportée | 001, 002 | IN_PROGRESS (#6) |
+| IDR-003 | G0 | P0 | allauth Headless installé, URLConf et OpenAPI locale exportée | 001, 002 | DONE (#7) |
 | IDR-004 | G0 | P0 | Client TS, types contractuels et mapping `flows/meta` testés | 003 | TODO |
 | IDR-005 | G1 | P0 | Routage same-origin, TLS, cookies et session serveur démontrés | 003 | TODO |
 | IDR-006 | G1 | P0 | CSRF bootstrap, négatifs et rotation post-login | 005 | TODO |
