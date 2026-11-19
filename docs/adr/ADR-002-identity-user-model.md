@@ -1,7 +1,7 @@
 # ADR-002 - Modèle User custom et politique d'identification initiale
 
 - Date : 2026-11-19
-- Statut : proposé (en revue via IDR-002)
+- Statut : accepté et implémenté (PR #4 fusionnée, CI du SHA de PR verte)
 - Source : R1 §05.2, ROADMAP §04, DEC-01/DEC-02
 - Décision : **conserver les champs AbstractUser, changer seulement la PK en UUID**.
 
@@ -37,6 +37,12 @@ Django exige que le modèle référencé par `AUTH_USER_MODEL` soit créé dans 
 ## Réversibilité
 
 Changer le modèle User après migration n'est pas une opération anodine. Cette décision doit être revue **avant** l'ouverture des données réelles. Toute évolution email-only exigera une migration et un protocole explicites.
+
+## Preuves de validation
+
+- [PR #4 fusionnée](https://github.com/tawounfouet/identity-reference-poc/pull/4)
+- [CI initiale de validation du modèle UUID](https://github.com/tawounfouet/identity-reference-poc/actions/runs/44590615891)
+- [CI finale avec migration figée et détection de dérive](https://github.com/tawounfouet/identity-reference-poc/actions/runs/44590731215)
 
 ## Références
 
