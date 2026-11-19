@@ -9,6 +9,13 @@
 > **Source principale :** `R1_DJANGO_ALLAUTH_HEADLESS_REACT_REFERENCE_IMPLEMENTATION_AND_CONTRACTS.md` (R1, sections 00 à 21)  
 > **Sources complémentaires :** documentation officielle django-allauth Headless, OpenAPI et notes de version, à revérifier lors de G0
 
+### Clôture du gate G0 - 19/11/2026
+
+- [Audit final des preuves](docs/gates/G0_FINAL_ACCEPTANCE_AUDIT.md) : **GO G0 limité au socle local et à la préparation de G1**, sous réserve de CI de cette PR et fusion.
+- [ADR-005](docs/adr/ADR-005-local-openapi-contract-and-version-policy.md) : source de vérité OpenAPI réelle et contrat TS reproductible.
+- [Avis de sécurité - scan Python et Node](https://github.com/tawounfouet/identity-reference-poc/actions/runs/44615528846) : aucun avis connu signalé au seuil des contrôles effectués le 19/11.
+- Cette approbation ne vaut **ni GO staging, ni GO G1, ni GO production**. L'implémentation et les preuves de routage/cookies/CSRF restent IDR-005 et IDR-006.
+
 ### Suivi opérationnel du 19/11/2026 (IDR-001)
 
 - Ticket IDR-001 : **DONE** après fusion de [PR #2](https://github.com/tawounfouet/identity-reference-poc/pull/2).
@@ -266,26 +273,26 @@ identity-reference-poc/
 
 ### G0.A - Tâches
 
-- [ ] Créer et initialiser `identity-reference-poc` avec les dossiers backend/frontend/docs et une CI minimale.
-- [ ] Définir les versions Python, Django, django-allauth, DRF, Next.js, React et TypeScript ; vérifier compatibilité et avis de sécurité publiés au moment de l'installation.
-- [ ] Adopter un lockfile Python et un lockfile frontend ; tester l'installation à froid dans un environnement isolé.
-- [ ] Créer **avant la première migration** `identities.User` ; valider UUID, username/email, manager et contraintes d'unicité.
-- [ ] Activer `django.contrib.auth`, `allauth.account`, `allauth.headless`, les middlewares et backends requis ; ajouter social/MFA/usersessions seulement selon le périmètre planifié.
-- [ ] Configurer `HEADLESS_ONLY=True`, `HEADLESS_CLIENTS=("browser",)`, et le mapping frontend adapté à chaque environnement.
-- [ ] Garder `accounts/` **et** `_allauth/` dans l'URLConf ; vérifier l'installation même si les pages Django de compte sont désactivées.
-- [ ] Configurer la base de test et les paramètres de sécurité distincts des secrets de développement.
-- [ ] Activer temporairement l'export OpenAPI en profil contrôlé, capturer `/_allauth/openapi.json` et le versionner.
-- [ ] Générer les types TypeScript du client à partir du schéma local et les valider en CI.
-- [ ] Mettre en place des tests de healthcheck, de migration et de disponibilité des routes allauth.
-- [ ] Consigner ADR-001 à ADR-005 et les décisions `DEC-01` à `DEC-05`.
+- [x] Créer et initialiser `identity-reference-poc` avec les dossiers backend/frontend/docs et une CI minimale.
+- [x] Définir les versions Python, Django, django-allauth, DRF, Next.js, React et TypeScript ; vérifier compatibilité et avis de sécurité publiés au moment de l'installation.
+- [x] Adopter un lockfile Python et un lockfile frontend ; tester l'installation à froid dans un environnement isolé.
+- [x] Créer **avant la première migration** `identities.User` ; valider UUID, username/email, manager et contraintes d'unicité.
+- [x] Activer `django.contrib.auth`, `allauth.account`, `allauth.headless`, les middlewares et backends requis ; ajouter social/MFA/usersessions seulement selon le périmètre planifié.
+- [x] Configurer `HEADLESS_ONLY=True`, `HEADLESS_CLIENTS=("browser",)`, et le mapping frontend adapté à chaque environnement.
+- [x] Garder `accounts/` **et** `_allauth/` dans l'URLConf ; vérifier l'installation même si les pages Django de compte sont désactivées.
+- [x] Configurer la base de test et les paramètres de sécurité distincts des secrets de développement.
+- [x] Activer temporairement l'export OpenAPI en profil contrôlé, capturer `/_allauth/openapi.json` et le versionner.
+- [x] Générer les types TypeScript du client à partir du schéma local et les valider en CI.
+- [x] Mettre en place des tests de healthcheck, de migration et de disponibilité des routes allauth.
+- [x] Consigner ADR-001 à ADR-005 et les décisions `DEC-01` à `DEC-05`.
 
 ### G0.B - Définition de sortie
 
-- [ ] Le clone vierge peut installer, migrer et démarrer backend et frontend avec des commandes documentées.
-- [ ] Le modèle User ne nécessite aucune migration destructive initiale.
-- [ ] La spec OpenAPI correspond à la version/allauth/apps réellement installées.
-- [ ] Les fichiers de secrets restent hors Git ; `.env.example` ne contient aucune valeur sensible.
-- [ ] CI backend/frontend/contracts initiale verte sur commit de référence.
+- [x] Le clone vierge peut installer, migrer et démarrer backend et frontend avec des commandes documentées.
+- [x] Le modèle User ne nécessite aucune migration destructive initiale.
+- [x] La spec OpenAPI correspond à la version/allauth/apps réellement installées.
+- [x] Les fichiers de secrets restent hors Git ; `.env.example` ne contient aucune valeur sensible.
+- [x] CI backend/frontend/contracts initiale verte sur commit de référence.
 
 **Preuves :** SHA commit, lockfiles, résultat `manage.py check`, migrations, liste des routes, fichier OpenAPI et journal CI.  
 **NO-GO G0 :** installation non déterministe, custom User indécis, compatibilité majeure non résolue, contrat impossible à exporter.
@@ -748,6 +755,8 @@ Tout risque P0 découvert doit bloquer la promotion du gate concerné jusqu'à c
 
 ## 16. ADR attendues et décisions de gouvernance
 
+**Nota post-G0 :** le tableau ci-dessous a été rédigé comme une matrice **thématique prévisionnelle** et ne correspond pas une-à-une aux titres réels des ADR-001 à ADR-005 produites pendant IDR-001 à IDR-004. Voir la [table de correspondance dans l'audit final G0](docs/gates/G0_FINAL_ACCEPTANCE_AUDIT.md). Les sujets G1/G2+ ne sont pas réputés livrés.
+
 Reprendre les dix décisions R1 et les formaliser au format `docs/adr/ADR-XXX-*.md` :
 
 | ADR | Décision de référence |
@@ -854,7 +863,7 @@ L'architecture est déclarée **réutilisable** si une nouvelle application peut
 
 | Gate | Progression | Tickets associés | Statut | Décision |
 |---|---:|---|---|---|
-| G0 | 0 % | 001-004 | NOT_STARTED | Aucune |
+| G0 | 100 % des tickets | 001-004 | PASSED - baseline locale uniquement | GO G0, voir audit final |
 | G1 | 0 % | 005-006 | NOT_STARTED | Aucune |
 | G2 | 0 % | 007-008 | NOT_STARTED | Aucune |
 | G3 | 0 % | 009-011 | NOT_STARTED | Aucune |
@@ -862,7 +871,7 @@ L'architecture est déclarée **réutilisable** si une nouvelle application peut
 | G5 | 0 % | 014-016 | NOT_STARTED | Aucune |
 | G6 | 0 % | 017 | NOT_STARTED | Aucune |
 
-Les pourcentages sont **des valeurs initiales documentaires**, pas des mesures issues du dépôt. Pour un suivi réel, remplacer par un indicateur calculé depuis tickets vérifiés, couverture des tests et preuves de gate. Ne pas confondre « tickets fermés » et « risque résiduel acceptable ».
+Les pourcentages **hors G0** sont des valeurs initiales documentaires. Pour G0, 100 % désigne **4 tickets DONE sur 4**, pas une couverture de sécurité ou une mesure de tests. Pour un suivi réel, remplacer par un indicateur calculé depuis tickets vérifiés, couverture des tests et preuves de gate. Ne pas confondre « tickets fermés » et « risque résiduel acceptable ».
 
 ### 20.1 Prochaine action immédiate
 
