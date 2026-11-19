@@ -4,6 +4,7 @@ Run: uv run --locked python tools/export_headless_openapi.py
 Check: uv run --locked python tools/export_headless_openapi.py --check
 """
 import argparse
+import difflib
 import json
 import os
 import sys
@@ -50,8 +51,24 @@ def main() -> int:
     normalized = json.dumps(payload, sort_keys=True, ensure_ascii=False, indent=2) + "\n"
     path = Path(__file__).resolve().parents[2] / "docs/api/allauth-browser-openapi.json"
     if args.check:
-        if not path.is_file() or path.read_text(encoding="utf-8") != normalized:
+        if not path.is_file():
+            print(f"OpenAPI snapshot missing: {path}", file=sys.stderr)
+            return 1
+        committed = path.read_text(encoding="utf-8")
+        if committed != normalized:
             print(f"OpenAPI drift detected: {path}", file=sys.stderr)
+            diff = difflib.unified_diff(
+                committed.splitlines(),
+                normalized.splitlines(),
+                fromfile="committed.json",
+                tofile="generated.json",
+                lineterm="",
+            )
+            for index, line in enumerate(diff):
+                if index >= 50:
+                    print("... diff truncated ...", file=sys.stderr)
+                    break
+                print(line[:350], file=sys.stderr)
             return 1
         print(f"OpenAPI matches committed snapshot: {len(paths)} paths")
         return 0
