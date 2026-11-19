@@ -106,3 +106,25 @@ uv run --locked pytest
 Routes : `GET /health/`, `/_allauth/browser/v1/` pour l'API Headless, `/accounts/` réservé aux parcours callback futurs.
 
 Le schéma (22 chemins browser pour la version verrouillée) est exporté exclusivement depuis `config.settings.spec`, et absent des configurations ordinaires. L'export peut être régénéré avec `uv run --locked python tools/export_headless_openapi.py`. Voir [ADR-003](docs/adr/ADR-003-headless-browser-and-username-policy.md).
+
+## IDR-004 - Client TypeScript contractuel
+
+L'API browser est construite **uniquement** à partir des routes validées par le schéma de `docs/api/allauth-browser-openapi.json`. Le client est un module indépendant de la page de connexion, qui ne sera ajoutée qu'après la validation de G1.
+
+```sh
+cd frontend
+corepack pnpm install --frozen-lockfile
+corepack pnpm types:generate
+corepack pnpm test
+corepack pnpm typecheck
+corepack pnpm build
+```
+
+- `src/features/auth/api/generated/allauth.d.ts` est **généré**, non modifié à la main.
+- `BrowserAuthClient` expose `loadSession`, `login(username,password)`, `logout` et `loadConfiguration`.
+- `mapAuthEnvelope` distingue login initial, vérification email, MFA, réauthentification, conflit, refus et disponibilité à partir du HTTP, de `meta` et de `data.flows`.
+- Sur toute mutation (POST/DELETE), le transport exige un cookie CSRF lisible ; **en son absence, aucune requête ne part**. G1 doit implémenter le vrai bootstrap et la topologie même origine avant un vrai login navigateur.
+- Aucun secret dans `localStorage`, aucun token JWT, aucun replay automatique ou URL arbitraire.
+- Le code génère `AuthClientError` pour les réponses non JSON / réseau / statut incohérent ; les consommateurs doivent traiter ces erreurs sans révéler leurs détails.
+
+Voir [ADR-004](docs/adr/ADR-004-typed-browser-client.md). La CI compare le fichier régénéré à la version commitée pour détecter toute dérive du contrat.

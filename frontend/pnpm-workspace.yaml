@@ -1,0 +1,7 @@
+# pnpm 11 supply-chain build policy.
+# This single version of esbuild is needed for the tsx test runner.
+# Do not approve all packages or disable strict build checks.
+packages:
+  - "."
+allowBuilds:
+  "esbuild@0.28.2": true
