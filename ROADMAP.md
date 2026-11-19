@@ -519,7 +519,7 @@ Les IDs `IDR-001` à `IDR-017` sont **conservés tels quels** du backlog R1. Les
 |---|---|---|---|---|---|
 | IDR-001 | G0 | P0 | Monorepo, README, versions, lockfiles, CI bootstrap | - | DONE (#2) |
 | IDR-002 | G0 | P0 | Custom User défini, migrations propres, décision login | 001 | DONE (#4) |
-| IDR-003 | G0 | P0 | allauth Headless installé, URLConf et OpenAPI locale exportée | 001, 002 | TODO |
+| IDR-003 | G0 | P0 | allauth Headless installé, URLConf et OpenAPI locale exportée | 001, 002 | IN_PROGRESS (#6) |
 | IDR-004 | G0 | P0 | Client TS, types contractuels et mapping `flows/meta` testés | 003 | TODO |
 | IDR-005 | G1 | P0 | Routage same-origin, TLS, cookies et session serveur démontrés | 003 | TODO |
 | IDR-006 | G1 | P0 | CSRF bootstrap, négatifs et rotation post-login | 005 | TODO |

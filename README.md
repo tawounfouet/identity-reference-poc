@@ -88,3 +88,20 @@ uv run --locked ruff check .
 Les `.env` ne sont pas versionnés. Le mode `local` contient uniquement une clé de développement explicitement non sécurisée. Les environnements staging et production exigeront une clé fournie par l'environnement. Le frontend ne conserve ni mots de passe ni tokens dans `localStorage`.
 
 **G0 reste NON VALIDÉ** tant que les lockfiles, les tests et les journaux GitHub Actions n'ont pas été vérifiés.
+
+## IDR-003 - Activation allauth Headless et contrats
+
+`allauth.account`, `allauth.headless` et `allauth.socialaccount` sont intégrés. Aucun provider OAuth n'est configuré et les inscriptions sont désactivées.
+
+```sh
+cd backend
+uv sync --locked --group dev
+uv run --locked python manage.py migrate --noinput
+uv run --locked python manage.py check
+uv run --locked python tools/export_headless_openapi.py --check
+uv run --locked pytest
+```
+
+Routes : `GET /health/`, `/_allauth/browser/v1/` pour l'API Headless, `/accounts/` réservé aux parcours callback futurs.
+
+Le schéma est exporté exclusivement depuis `config.settings.spec`, et absent des configurations ordinaires. L'export peut être régénéré avec `uv run --locked python tools/export_headless_openapi.py`. Voir [ADR-003](docs/adr/ADR-003-headless-browser-and-username-policy.md).
