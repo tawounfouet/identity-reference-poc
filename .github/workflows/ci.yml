@@ -1,4 +1,4 @@
-name: IDR-001 CI
+name: Identity Reference CI
 
 on:
   pull_request:
@@ -31,12 +31,8 @@ jobs:
         run: test -f uv.lock
       - name: Frozen Python installation
         run: uv sync --locked --group dev
-      - name: Generate first Identity migration for review (temporary)
-        run: |
-          uv run --locked python manage.py makemigrations identities --noinput --settings=config.settings.test
-          echo '==== BEGIN GENERATED IDENTITY MIGRATION ===='
-          cat apps/identities/migrations/0001_initial.py
-          echo '==== END GENERATED IDENTITY MIGRATION ===='
+      - name: Verify migration files match Django models
+        run: uv run --locked python manage.py makemigrations --check --dry-run --settings=config.settings.test
       - name: Apply initial migrations to a disposable CI database
         run: uv run --locked python manage.py migrate --noinput --settings=config.settings.test
       - name: Django system checks
