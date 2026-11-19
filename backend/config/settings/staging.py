@@ -1,13 +1,13 @@
 """Staging placeholder: a real secret and deployment policy are mandatory."""
+import os
+from urllib.parse import urlsplit
+
 from django.core.exceptions import ImproperlyConfigured
 
 from .base import *  # noqa: F403
 
 if not SECRET_KEY:  # noqa: F405
     raise ImproperlyConfigured("DJANGO_SECRET_KEY is required for staging")
-
-import os
-from urllib.parse import urlsplit
 
 FRONTEND_ORIGIN = os.environ.get("FRONTEND_ORIGIN", "")
 if urlsplit(FRONTEND_ORIGIN).scheme != "https" or not urlsplit(FRONTEND_ORIGIN).hostname:

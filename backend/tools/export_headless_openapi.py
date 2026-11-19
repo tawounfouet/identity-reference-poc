@@ -9,11 +9,8 @@ import os
 import sys
 from pathlib import Path
 
-# This script is executed from backend/ so config/ can be imported.
-os.environ["DJANGO_SETTINGS_MODULE"] = "config.settings.spec"
-
-import django  # noqa: E402
-from django.test import Client  # noqa: E402
+import django
+from django.test import Client
 
 
 def main() -> int:
@@ -21,6 +18,7 @@ def main() -> int:
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
 
+    os.environ["DJANGO_SETTINGS_MODULE"] = "config.settings.spec"
     django.setup()
     response = Client().get("/_allauth/openapi.json")
     if response.status_code != 200:
