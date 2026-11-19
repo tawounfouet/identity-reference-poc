@@ -44,14 +44,16 @@ uv run --locked python manage.py runserver
 
 ```sh
 cd frontend
-pnpm install --frozen-lockfile
-pnpm typecheck
-pnpm build
-pnpm dev
+corepack pnpm install --frozen-lockfile
+corepack pnpm typecheck
+corepack pnpm build
+corepack pnpm dev
 # http://localhost:3000
 ```
 
 Aucun écran de connexion fonctionnel n'est annoncé pendant IDR-001.
+
+**Important :** exécuter les commandes depuis `frontend/`. `corepack pnpm` sélectionne la version déclarée par `packageManager` ; un `pnpm` global plus ancien peut malgré tout installer avec succès, mais il ne garantit pas l'alignement du poste de travail.
 
 ## Verrouillage et CI
 
