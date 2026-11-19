@@ -19,6 +19,8 @@ def main() -> int:
     args = parser.parse_args()
 
     os.environ["DJANGO_SETTINGS_MODULE"] = "config.settings.spec"
+    # The script runs inside backend/tools; add backend/ to the import path.
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
     django.setup()
     response = Client().get("/_allauth/openapi.json")
     if response.status_code != 200:
