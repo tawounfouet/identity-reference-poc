@@ -40,8 +40,11 @@ def main() -> int:
 
     # Fail closed if the installed spec does not expose the required browser
     # endpoints, rather than writing an invented/custom substitute.
-    if not any("/browser/v1/auth/session" in p for p in paths):
-        print("OpenAPI lacks browser session routes", file=sys.stderr)
+    if "/_allauth/browser/v1/auth/session" not in paths:
+        print("OpenAPI lacks the browser session endpoint", file=sys.stderr)
+        return 1
+    if any(not path.startswith("/_allauth/browser/v1/") for path in paths):
+        print("Non-browser paths found in browser-only snapshot", file=sys.stderr)
         return 1
 
     normalized = json.dumps(payload, sort_keys=True, ensure_ascii=False, indent=2) + "\n"

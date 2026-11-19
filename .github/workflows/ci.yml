@@ -9,7 +9,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: idr-001-ci-${{ github.workflow }}-${{ github.ref }}
+  group: identity-reference-ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -33,6 +33,8 @@ jobs:
         run: uv sync --locked --group dev
       - name: Verify migration files match Django models
         run: uv run --locked python manage.py makemigrations --check --dry-run --settings=config.settings.test
+      - name: Check real Headless OpenAPI snapshot and prohibit drift
+        run: uv run --locked python tools/export_headless_openapi.py --check
       - name: Apply initial migrations to a disposable CI database
         run: uv run --locked python manage.py migrate --noinput --settings=config.settings.test
       - name: Django system checks

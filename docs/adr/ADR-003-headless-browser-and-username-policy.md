@@ -13,13 +13,13 @@
 5. `ACCOUNT_SIGNUP_FIELDS` contient les champs username/email/password requis pour une future activation, pas une autorisation actuelle de créer des comptes.
 6. Pas de `ModelBackend` supplémentaire qui contournerait les politiques allauth. Pas d'admin Django connecté. La stratégie d'accès admin sera revérifiée plus tard.
 7. `HEADLESS_SERVE_SPECIFICATION=False` par défaut, `True` dans le seul profil de génération `config.settings.spec`. Installer `django-allauth[headless-spec]` uniquement dans le groupe de développement.
-8. Produire `docs/api/allauth-browser-openapi.json` depuis `/_allauth/openapi.json` avec `Client`, normaliser le JSON et vérifier la dérive en CI. Ne pas considérer la spec comme une API inventée.
+8. Produire `docs/api/allauth-browser-openapi.json` depuis `/_allauth/openapi.json` avec `Client`, normaliser le JSON et vérifier la dérive en CI. La version 65.22.1 fournit **22 chemins navigateur** dans ce profil, sans chemins app. Ne pas considérer la spec comme une API inventée.
 9. Les URLs frontend sont paramétrées par `FRONTEND_ORIGIN`, en HTTPS obligatoire pour staging. Aucun serveur Next.js n'est relié à Django à ce stade.
 
 ## Sécurité, limites
 
 - `username` est unique au niveau Django ; `email` reste non unique en base. Le futur login email-only exigerait un ADR et la revue des données/contraintes.
-- Les règles d'unicité et d'énumération allauth doivent être testées avant activation du signup (IDR-008).
+- Les règles d'unicité et d'énumération allauth doivent être testées avant activation du signup (IDR-008). La documentation upstream OpenAPI décrit aussi les endpoints non disponibles avec notre configuration (signup désactivé, MFA/providers non activés) : l'existence d'un chemin documenté ne vaut pas autorisation fonctionnelle.
 - Toute requête browser mutative devra être protégée par le CSRF dans G1.
 - Le port 3000 et le port 8000 sont **deux origines différentes** en développement ; aucune promesse d'authentification de bout en bout avant le proxy même origine de G1.
 - Aucun provider social n'est configuré. L'app socialaccount seule n'implique pas de Google OAuth fonctionnel.
