@@ -5,7 +5,7 @@ description = "Django authentication reference POC, bootstrap only"
 requires-python = ">=3.13,<3.14"
 dependencies = [
   "Django==5.2.19",
-  "django-allauth[headless]==65.22.1",
+  "django-allauth[headless,socialaccount]==65.22.1",
   "djangorestframework==3.18.3",
 ]
 
