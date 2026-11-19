@@ -78,3 +78,11 @@ Tests backend ajoutés pour la politique, les Hosts adversariaux, les headers no
 Les cookies `SESSION_COOKIE_SECURE` et `CSRF_COOKIE_SECURE` sont **True par défaut** dans `base.py`. Seuls `local.py` et `test.py` les désactivent explicitement pour les tests HTTP loopback. Le profil staging les impose également à `True` sans domaine partagé.
 
 [CI P2 avant durcissement du défaut](https://github.com/tawounfouet/identity-reference-poc/actions/runs/44621617636) : 33 tests Python réussis, 16 tests frontend, 3/3 jobs au vert. Cette preuve n'est pas un test TLS staging. Le durcissement final des defaults doit être validé par la prochaine CI sur la version finale du commit.
+
+## 9. Preuve finale P2 après durcissement des valeurs par défaut
+
+[CI finale du commit `9517e0384e05f8a60f9f0c06e7f4338893e120db`](https://github.com/tawounfouet/identity-reference-poc/actions/runs/44621894470) : **3/3 jobs GitHub Actions réussis**, **33 tests Django** et **16 tests frontend**.
+
+Le profil staging a été instancié dans des processus Python séparés : une origine HTTPS canonique et une liste d'hôtes strictement égale au hostname sont acceptées ; neuf combinaisons d'origines/hôtes dangereuses sont rejetées. Les attributs des cookies et la non-confiance envers les en-têtes de proxy non vérifiés ont été contrôlés.
+
+La validation porte sur la **configuration Django et la simulation des cookies sécurisés**, pas sur l'émission réelle des cookies depuis une origine HTTPS de staging, qui reste non disponible. **P3/P4/P5 demeurent obligatoires, PR toujours draft, G1 NO-GO**.

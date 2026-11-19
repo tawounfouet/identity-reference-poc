@@ -14,6 +14,7 @@
 - [Issue #14](https://github.com/tawounfouet/identity-reference-poc/issues/14) ouverte et [PR #15 en brouillon](https://github.com/tawounfouet/identity-reference-poc/pull/15).
 - Plan complet versionné dans `docs/plans/IDR_005_SAME_ORIGIN_TOPOLOGY_IMPLEMENTATION_PLAN.md`.
 - **P1 local démontré** : rewrites Next.js uniquement en développement vers loopback Django ; [CI smoke HTTP réelle](https://github.com/tawounfouet/identity-reference-poc/actions/runs/44617239754) : 3/3 jobs verts.
+- **P2 configuration et cookies validés en CI** : cookies Secure par défaut (exception explicite local/test), session HttpOnly, CSRF lisible, SameSite Lax, host-only, Host hostile rejeté, aucun `X-Forwarded-*` présumé fiable ; [CI P2 finale](https://github.com/tawounfouet/identity-reference-poc/actions/runs/44621894470) : 33 tests Django + 16 tests frontend + smoke réel.
 - Les routes Django /health, /_allauth/config, /_allauth/session traversent Next.js. Session anonyme 401 attendue, pas d'authentification contournée.
 - **IDR-005 et G1 restent IN_PROGRESS / NO-GO** : aucun staging HTTPS, domaine DNS, proxy de confiance, configuration de cookies ou preuve d'Origin hostiles en production.
 - La politique de staging doit être décidée explicitement avant de passer aux phases P2 à P5.
