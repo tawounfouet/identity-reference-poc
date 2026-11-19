@@ -35,3 +35,6 @@ out/
 .DS_Store
 .idea/
 .vscode/
+
+# Next.js generated declarations
+frontend/next-env.d.ts
