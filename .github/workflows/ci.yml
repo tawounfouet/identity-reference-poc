@@ -63,6 +63,13 @@ jobs:
         run: test -f pnpm-lock.yaml
       - name: Frozen frontend installation
         run: pnpm install --frozen-lockfile
+      - name: Verify TypeScript types regenerated from the pinned OpenAPI
+        run: |
+          test -s src/features/auth/api/generated/allauth.d.ts
+          pnpm types:generate
+          git diff --exit-code -- src/features/auth/api/generated/allauth.d.ts
+      - name: Browser auth client contract tests
+        run: pnpm test
       - name: Typecheck
         run: pnpm typecheck
       - name: Build
