@@ -153,3 +153,5 @@ DJANGO_PROXY_ORIGIN=http://127.0.0.1:8000 corepack pnpm dev
 Les endpoints `http://localhost:3000/health/`, `http://localhost:3000/_allauth/browser/v1/auth/session` et `http://localhost:3000/_allauth/browser/v1/config` transitent alors par le proxy Next.js vers Django. Les pages et les assets sont rendus par Next.js. Les règles ne sont installées **qu'en mode development**, quand `DJANGO_PROXY_ORIGIN` est un véritable `http://localhost:<port>` ou `http://127.0.0.1:<port>` sans chemin, identifiants ni paramètres. Cette variable n'a pas de préfixe `NEXT_PUBLIC_`.
 
 L'origine staging, son reverse proxy de confiance, TLS, cookies host-only et la gestion `X-Forwarded-*` sont **encore à sélectionner et démontrer**. Ne pas activer `SECURE_PROXY_SSL_HEADER` pour masquer une absence de TLS.
+
+**Preuve de routage P1 local :** [IDR005_LOCAL_PROXY_DECISION_AND_EVIDENCE.md](docs/architecture/IDR005_LOCAL_PROXY_DECISION_AND_EVIDENCE.md) et [CI HTTP réelle](https://github.com/tawounfouet/identity-reference-poc/actions/runs/44617239754). Cette étape n'autorise pas encore le déploiement de staging.

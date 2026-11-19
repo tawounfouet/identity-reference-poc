@@ -9,6 +9,17 @@
 > **Source principale :** `R1_DJANGO_ALLAUTH_HEADLESS_REACT_REFERENCE_IMPLEMENTATION_AND_CONTRACTS.md` (R1, sections 00 à 21)  
 > **Sources complémentaires :** documentation officielle django-allauth Headless, OpenAPI et notes de version, à revérifier lors de G0
 
+### Suivi opérationnel IDR-005 - 19/11/2026
+
+- [Issue #14](https://github.com/tawounfouet/identity-reference-poc/issues/14) ouverte et [PR #15 en brouillon](https://github.com/tawounfouet/identity-reference-poc/pull/15).
+- Plan complet versionné dans `docs/plans/IDR_005_SAME_ORIGIN_TOPOLOGY_IMPLEMENTATION_PLAN.md`.
+- **P1 local démontré** : rewrites Next.js uniquement en développement vers loopback Django ; [CI smoke HTTP réelle](https://github.com/tawounfouet/identity-reference-poc/actions/runs/44617239754) : 3/3 jobs verts.
+- Les routes Django /health, /_allauth/config, /_allauth/session traversent Next.js. Session anonyme 401 attendue, pas d'authentification contournée.
+- **IDR-005 et G1 restent IN_PROGRESS / NO-GO** : aucun staging HTTPS, domaine DNS, proxy de confiance, configuration de cookies ou preuve d'Origin hostiles en production.
+- La politique de staging doit être décidée explicitement avant de passer aux phases P2 à P5.
+
+---
+
 ### Clôture du gate G0 - 19/11/2026
 
 - [Audit final des preuves](docs/gates/G0_FINAL_ACCEPTANCE_AUDIT.md) : **GO G0 limité au socle local et à la préparation de G1**, sous réserve de CI de cette PR et fusion.
@@ -549,7 +560,7 @@ Les IDs `IDR-001` à `IDR-017` sont **conservés tels quels** du backlog R1. Les
 | IDR-002 | G0 | P0 | Custom User défini, migrations propres, décision login | 001 | DONE (#4) |
 | IDR-003 | G0 | P0 | allauth Headless installé, URLConf et OpenAPI locale exportée | 001, 002 | DONE (#7) |
 | IDR-004 | G0 | P0 | Client TS, types contractuels et mapping `flows/meta` testés | 003 | DONE (#10) |
-| IDR-005 | G1 | P0 | Routage same-origin, TLS, cookies et session serveur démontrés | 003 | TODO |
+| IDR-005 | G1 | P0 | Routage same-origin, TLS, cookies et session serveur démontrés | 003 | IN_PROGRESS (#14, PR #15 draft) |
 | IDR-006 | G1 | P0 | CSRF bootstrap, négatifs et rotation post-login | 005 | TODO |
 | IDR-007 | G2 | P0 | Login, signup, session, logout et `/api/v1/me` E2E | 004, 006 | TODO |
 | IDR-008 | G2 | P0 | Vérification email, reset et reauth avec tests | 007 | TODO |
@@ -864,7 +875,7 @@ L'architecture est déclarée **réutilisable** si une nouvelle application peut
 | Gate | Progression | Tickets associés | Statut | Décision |
 |---|---:|---|---|---|
 | G0 | 100 % des tickets | 001-004 | PASSED - baseline locale uniquement | GO G0, voir audit final |
-| G1 | 0 % | 005-006 | NOT_STARTED | Aucune |
+| G1 | P1 local partiel | 005-006 | IN_PROGRESS | NO-GO, staging/CSRF non prouvés |
 | G2 | 0 % | 007-008 | NOT_STARTED | Aucune |
 | G3 | 0 % | 009-011 | NOT_STARTED | Aucune |
 | G4 | 0 % | 012-013 | NOT_STARTED | Aucune |
