@@ -1,6 +1,6 @@
 # ADR-001 - Toolchain et frontières du bootstrap
 
-- Statut : proposé, à valider par la CI de la PR IDR-001
+- Statut : accepté et implémenté (PR #2 fusionnée, CI verte)
 - Date : 2026-11-19
 - Portée : ticket IDR-001, non une approbation de G0
 

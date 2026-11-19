@@ -2,9 +2,15 @@
 
 POC de référence Django + django-allauth Headless + Next.js.
 
-**Statut : IDR-001 / G0 en cours. Pas de déploiement de production.**
+**Statut : IDR-001 et IDR-002 livrés, G0 encore en cours. Pas de déploiement de production.**
 
-## Périmètre de ce ticket
+## Historique des livraisons
+
+- IDR-001 : bootstrap du monorepo, lockfiles, CI ([PR #2](https://github.com/tawounfouet/identity-reference-poc/pull/2)).
+- IDR-002 : identité UUID et migration initiale ([PR #4](https://github.com/tawounfouet/identity-reference-poc/pull/4)).
+- IDR-003 : activation allauth Headless et export OpenAPI, à venir.
+
+## Périmètre du bootstrap
 
 IDR-001 crée le monorepo, la configuration des outils, la base Django, le squelette Next.js, les lockfiles et la CI. Il **n'active pas** les parcours d'authentification et ne définit pas encore le modèle utilisateur.
 

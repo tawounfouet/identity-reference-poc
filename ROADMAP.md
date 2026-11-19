@@ -22,9 +22,9 @@
 
 ### Suivi opérationnel IDR-002 (19/11/2026)
 
-- Branche : `feat/idr-002-custom-user` ; [PR #4](https://github.com/tawounfouet/identity-reference-poc/pull/4), [issue #3](https://github.com/tawounfouet/identity-reference-poc/issues/3).
+- Branche : `feat/idr-002-custom-user` ; [PR #4 fusionnée](https://github.com/tawounfouet/identity-reference-poc/pull/4), [issue #3](https://github.com/tawounfouet/identity-reference-poc/issues/3).
 - `identities.User(AbstractUser)` : PK UUID4, `username` unique, `email` non unique, `UserManager` Django conservé. Voir `docs/adr/ADR-002-identity-user-model.md`.
-- Première migration `identities/0001_initial.py` issue du générateur Django et versionnée.
+- Première migration `identities/0001_initial.py` issue du générateur Django, versionnée et fusionnée sur `main`.
 - Vérifications exigées : `makemigrations --check --dry-run`, `migrate` sur base vierge, 8 tests, Ruff, checks Django, build Next.js.
 - **G0 reste ouvert** jusqu'à IDR-003/004, OpenAPI effective et contrat frontend.
 
@@ -518,7 +518,7 @@ Les IDs `IDR-001` à `IDR-017` sont **conservés tels quels** du backlog R1. Les
 | Ticket | Gate | Priorité R1 | Deliverable / Definition of Done abrégée | Dépend de | État |
 |---|---|---|---|---|---|
 | IDR-001 | G0 | P0 | Monorepo, README, versions, lockfiles, CI bootstrap | - | DONE (#2) |
-| IDR-002 | G0 | P0 | Custom User défini, migrations propres, décision login | 001 | IN_REVIEW (#4) |
+| IDR-002 | G0 | P0 | Custom User défini, migrations propres, décision login | 001 | DONE (#4) |
 | IDR-003 | G0 | P0 | allauth Headless installé, URLConf et OpenAPI locale exportée | 001, 002 | TODO |
 | IDR-004 | G0 | P0 | Client TS, types contractuels et mapping `flows/meta` testés | 003 | TODO |
 | IDR-005 | G1 | P0 | Routage same-origin, TLS, cookies et session serveur démontrés | 003 | TODO |
