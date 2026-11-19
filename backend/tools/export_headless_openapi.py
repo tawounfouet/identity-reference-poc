@@ -15,7 +15,6 @@ import django
 from django.test import Client
 
 
-
 def canonicalize_example_uuids(value: object) -> object:
     """Normalize randomly generated UUID4s in upstream example values.
 
