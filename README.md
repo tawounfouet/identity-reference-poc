@@ -38,7 +38,7 @@ uv run --locked python manage.py runserver
 # GET http://127.0.0.1:8000/health/
 ```
 
-**Ne pas lancer `migrate` avant la livraison d'IDR-002.** La configuration de bootstrap n'installe pas encore le custom User, précisément pour respecter cette contrainte.
+**À partir d'IDR-002,** `migrate` est autorisé sur une base neuve après vérification du modèle `identities.User`. Cette procédure ne remplace pas une migration de données sur base existante.
 
 ## Frontend
 
@@ -60,6 +60,22 @@ Aucun écran de connexion fonctionnel n'est annoncé pendant IDR-001.
 Les fichiers `backend/uv.lock` et `frontend/pnpm-lock.yaml` ont été générés depuis les registres de paquets, puis committés sur la branche de ticket par le [workflow de bootstrap, exécuté avec succès](https://github.com/tawounfouet/identity-reference-poc/actions/runs/44503449515). Le workflow temporaire doté de permissions d'écriture a ensuite été retiré. La CI de PR refuse toute installation non verrouillée et exécute les vérifications de chaque stack.
 
 Les versions de première sélection sont documentées dans [ADR-001](docs/adr/ADR-001-bootstrap-toolchain.md). Aucune clé ou donnée personnelle ne doit être committée.
+
+## IDR-002 - Modèle User UUID (prêt à migrer sur base neuve)
+
+L'application `apps.identities` définit désormais `AUTH_USER_MODEL = "identities.User"` dans tous les profils Django. Elle conserve `AbstractUser.username` comme identifiant unique, avec UUID v4 opaque comme clé primaire.
+
+```sh
+cd backend
+uv sync --locked --group dev
+uv run --locked python manage.py makemigrations --check --dry-run
+uv run --locked python manage.py migrate --noinput
+uv run --locked python manage.py check
+uv run --locked pytest
+uv run --locked ruff check .
+```
+
+**Important :** exécuter les migrations uniquement sur une base locale neuve. Si une base `bootstrap.sqlite3` préexistante contient déjà des migrations ou des données, ne pas réutiliser ou supprimer ses données sans audit. Se référer à [ADR-002](docs/adr/ADR-002-identity-user-model.md). Les parcours allauth restent hors scope d'IDR-002.
 
 ## Sécurité et limites
 
