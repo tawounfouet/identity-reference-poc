@@ -2,7 +2,7 @@
 
 POC de référence Django + django-allauth Headless + Next.js.
 
-**Statut : IDR-001 à IDR-004 livrés ; G0 en revue, pas de GO production.**
+**Statut : IDR-001 à IDR-004 livrés ; G0 validé pour le socle local et le démarrage G1 sous réserve de la CI finale ; G1 et production non validés.**
 
 ## Historique des livraisons
 
@@ -19,7 +19,7 @@ IDR-001 crée le monorepo, la configuration des outils, la base Django, le squel
 - `IDR-003` : installer les apps allauth Headless, exposer les routes et exporter l'OpenAPI issue du backend réel.
 - `G1` : prouver les sessions, cookies sécurisés, le routage même origine et le CSRF.
 
-Lire [ROADMAP.md](ROADMAP.md) et le [document de référence R1](docs/references/R1_DJANGO_ALLAUTH_HEADLESS_REACT_REFERENCE_IMPLEMENTATION_AND_CONTRACTS.md).
+Lire [l'audit final G0](docs/gates/G0_FINAL_ACCEPTANCE_AUDIT.md), [ADR-005](docs/adr/ADR-005-local-openapi-contract-and-version-policy.md), [ROADMAP.md](ROADMAP.md) et le [document de référence R1](docs/references/R1_DJANGO_ALLAUTH_HEADLESS_REACT_REFERENCE_IMPLEMENTATION_AND_CONTRACTS.md).
 
 ## Prérequis
 

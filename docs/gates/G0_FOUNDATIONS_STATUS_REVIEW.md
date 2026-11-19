@@ -41,3 +41,7 @@ Aucune interface de login en production, aucune inscription publique et aucun GO
 - [ROADMAP.md](../../ROADMAP.md)
 - [R1 - Architecture et contrats](../references/R1_DJANGO_ALLAUTH_HEADLESS_REACT_REFERENCE_IMPLEMENTATION_AND_CONTRACTS.md)
 - [PR #10](https://github.com/tawounfouet/identity-reference-poc/pull/10)
+
+## Mise à jour après audit final du 19/11/2026
+
+Ce document constitue **l'état intermédiaire historique** établi juste après IDR-004. Il est remplacé, pour toute décision G0 effective, par [G0_FINAL_ACCEPTANCE_AUDIT.md](G0_FINAL_ACCEPTANCE_AUDIT.md) qui documente ADR-005, les matrices §04.A/B, les contrôles de sécurité exécutés et la décision GO limitée au socle local. G1, staging et production restent non validés.
