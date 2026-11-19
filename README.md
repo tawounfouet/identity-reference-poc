@@ -128,3 +128,28 @@ corepack pnpm build
 - Le code génère `AuthClientError` pour les réponses non JSON / réseau / statut incohérent ; les consommateurs doivent traiter ces erreurs sans révéler leurs détails.
 
 Voir [ADR-004](docs/adr/ADR-004-typed-browser-client.md) et [l'état des preuves G0](docs/gates/G0_FOUNDATIONS_STATUS_REVIEW.md). La CI compare le fichier régénéré à la version commitée pour détecter toute dérive du contrat.
+
+## IDR-005 - Proxy local Next.js vers Django (P1, non final)
+
+Le plan de topologie est versionné dans [docs/plans/IDR_005_SAME_ORIGIN_TOPOLOGY_IMPLEMENTATION_PLAN.md](docs/plans/IDR_005_SAME_ORIGIN_TOPOLOGY_IMPLEMENTATION_PLAN.md). Une configuration **exclusivement locale** de Next.js est ajoutée pour démarrer l'intégration du proxy par chemins. Cela ne valide **ni HTTPS staging, ni les cookies, ni le cycle CSRF**.
+
+Démarrer Django dans un premier terminal :
+
+```sh
+cd backend
+uv sync --locked --group dev
+uv run --locked python manage.py migrate --noinput
+uv run --locked python manage.py runserver 127.0.0.1:8000
+```
+
+Démarrer Next.js dans un second terminal :
+
+```sh
+cd frontend
+corepack pnpm install --frozen-lockfile
+DJANGO_PROXY_ORIGIN=http://127.0.0.1:8000 corepack pnpm dev
+```
+
+Les endpoints `http://localhost:3000/health/`, `http://localhost:3000/_allauth/browser/v1/auth/session` et `http://localhost:3000/_allauth/browser/v1/config` transitent alors par le proxy Next.js vers Django. Les pages et les assets sont rendus par Next.js. Les règles ne sont installées **qu'en mode development**, quand `DJANGO_PROXY_ORIGIN` est un véritable `http://localhost:<port>` ou `http://127.0.0.1:<port>` sans chemin, identifiants ni paramètres. Cette variable n'a pas de préfixe `NEXT_PUBLIC_`.
+
+L'origine staging, son reverse proxy de confiance, TLS, cookies host-only et la gestion `X-Forwarded-*` sont **encore à sélectionner et démontrer**. Ne pas activer `SECURE_PROXY_SSL_HEADER` pour masquer une absence de TLS.
