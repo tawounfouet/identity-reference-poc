@@ -1,7 +1,7 @@
 # ADR-004 - Client TypeScript browser fondé sur l'OpenAPI réel
 
 - Date : 2026-11-19
-- Statut : proposé pendant la PR IDR-004, à accepter après CI
+- Statut : accepté, implémenté via PR #10 fusionnée ; CI définitive réussie
 - Dépend : ADR-002 (UUID + username), ADR-003 (browser-only Headless et snapshot réel)
 - Couvre : ROADMAP G0 / IDR-004 ; G1 à G5 demeurent des gates indépendants
 
@@ -33,6 +33,13 @@ Les réponses `401` peuvent représenter plusieurs étapes d'authentification ; 
 ## Limites
 
 Pas de login utilisateur complet tant que le proxy même origine et le bootstrap CSRF ne sont pas démontrés. Ne jamais considérer `HEADLESS_ONLY` ou l'OpenAPI comme des preuves de conformité production.
+
+## Preuves enregistrées
+
+- [PR #10 - Implémentation et fusion IDR-004](https://github.com/tawounfouet/identity-reference-poc/pull/10)
+- [CI finale : Django, frontend, 12 tests auth, typecheck, build et diff typegen](https://github.com/tawounfouet/identity-reference-poc/actions/runs/44607781264)
+- [Génération initiale verrouillée et tests frontend](https://github.com/tawounfouet/identity-reference-poc/actions/runs/44607410924)
+- Workflow `contents:write` supprimé avant la fusion.
 
 ## Références
 

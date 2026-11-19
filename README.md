@@ -2,14 +2,14 @@
 
 POC de référence Django + django-allauth Headless + Next.js.
 
-**Statut : IDR-001, IDR-002 et IDR-003 livrés, G0 encore en cours. Pas de déploiement de production.**
+**Statut : IDR-001 à IDR-004 livrés ; G0 en revue, pas de GO production.**
 
 ## Historique des livraisons
 
 - IDR-001 : bootstrap du monorepo, lockfiles, CI ([PR #2](https://github.com/tawounfouet/identity-reference-poc/pull/2)).
 - IDR-002 : identité UUID et migration initiale ([PR #4](https://github.com/tawounfouet/identity-reference-poc/pull/4)).
 - IDR-003 : django-allauth Headless browser et OpenAPI réelle ([PR #7](https://github.com/tawounfouet/identity-reference-poc/pull/7)).
-- IDR-004 : client TypeScript et mapping des états/flux, à venir.
+- IDR-004 : client TypeScript généré depuis OpenAPI, machine d'états et 12 tests ([PR #10](https://github.com/tawounfouet/identity-reference-poc/pull/10)).
 
 ## Périmètre du bootstrap
 
@@ -127,4 +127,4 @@ corepack pnpm build
 - Aucun secret dans `localStorage`, aucun token JWT, aucun replay automatique ou URL arbitraire.
 - Le code génère `AuthClientError` pour les réponses non JSON / réseau / statut incohérent ; les consommateurs doivent traiter ces erreurs sans révéler leurs détails.
 
-Voir [ADR-004](docs/adr/ADR-004-typed-browser-client.md). La CI compare le fichier régénéré à la version commitée pour détecter toute dérive du contrat.
+Voir [ADR-004](docs/adr/ADR-004-typed-browser-client.md) et [l'état des preuves G0](docs/gates/G0_FOUNDATIONS_STATUS_REVIEW.md). La CI compare le fichier régénéré à la version commitée pour détecter toute dérive du contrat.

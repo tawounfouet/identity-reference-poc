@@ -42,12 +42,12 @@
 
 ### Suivi opérationnel IDR-004 (19/11/2026)
 
-- [Issue #9](https://github.com/tawounfouet/identity-reference-poc/issues/9), branche `feat/idr-004-typed-client`.
+- [Issue #9 clôturée](https://github.com/tawounfouet/identity-reference-poc/issues/9), [PR #10 fusionnée](https://github.com/tawounfouet/identity-reference-poc/pull/10), branche `feat/idr-004-typed-client`.
 - Client TypeScript browser strictement basé sur les chemins d'OpenAPI IDR-003, génération verrouillée `openapi-typescript` et snapshot déterministe.
 - Mapper `flows/meta` pur et testé ; authentification positive exige `meta.is_authenticated=true` **et** un `data.user.id` réel.
 - Mutations bloquées sans cookie CSRF ; pas de bootstrap factice, pas de proxy même origine, pas de login UI avant G1.
-- Définition de sortie : types générés identiques en CI, tests unitaires statuts/erreurs/CSRF, typecheck et build verts.
-- **G0 ne peut pas être déclaré validé avant la revue globale des preuves** (IDR-001 à IDR-004 et critères de sortie des sections 04 et 16).
+- Définition de sortie **vérifiée** : snapshot de types reproduit en CI, 12 tests frontend, 18 tests Django, typecheck et build verts. [CI du SHA fusionné](https://github.com/tawounfouet/identity-reference-poc/actions/runs/44607781264).
+- **IDR-004 = DONE ; G0 = EN REVUE / PAS ENCORE VALIDÉ.** Les 4 tickets sont implémentés mais la clôture du gate exige encore le contrôle exhaustif des critères §04 et la traçabilité ADR-005. Voir `docs/gates/G0_FOUNDATIONS_STATUS_REVIEW.md`.
 
 ---
 
@@ -541,7 +541,7 @@ Les IDs `IDR-001` à `IDR-017` sont **conservés tels quels** du backlog R1. Les
 | IDR-001 | G0 | P0 | Monorepo, README, versions, lockfiles, CI bootstrap | - | DONE (#2) |
 | IDR-002 | G0 | P0 | Custom User défini, migrations propres, décision login | 001 | DONE (#4) |
 | IDR-003 | G0 | P0 | allauth Headless installé, URLConf et OpenAPI locale exportée | 001, 002 | DONE (#7) |
-| IDR-004 | G0 | P0 | Client TS, types contractuels et mapping `flows/meta` testés | 003 | IN_PROGRESS (#9) |
+| IDR-004 | G0 | P0 | Client TS, types contractuels et mapping `flows/meta` testés | 003 | DONE (#10) |
 | IDR-005 | G1 | P0 | Routage same-origin, TLS, cookies et session serveur démontrés | 003 | TODO |
 | IDR-006 | G1 | P0 | CSRF bootstrap, négatifs et rotation post-login | 005 | TODO |
 | IDR-007 | G2 | P0 | Login, signup, session, logout et `/api/v1/me` E2E | 004, 006 | TODO |
