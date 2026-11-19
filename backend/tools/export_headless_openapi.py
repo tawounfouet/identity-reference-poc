@@ -8,11 +8,46 @@ import difflib
 import json
 import os
 import sys
+import uuid
 from pathlib import Path
 
 import django
 from django.test import Client
 
+
+
+def canonicalize_example_uuids(value: object) -> object:
+    """Normalize randomly generated UUID4s in upstream example values.
+
+    Preserve equality between repeated references and deterministic numbering
+    for distinct examples. All non-example schemas and fields are retained.
+    """
+    mapped: dict[str, str] = {}
+
+    def visit(node: object) -> object:
+        if isinstance(node, dict):
+            result = {}
+            for key, item in sorted(node.items()):
+                if key in {"id", "example"} and isinstance(item, str):
+                    try:
+                        value_uuid = uuid.UUID(item)
+                    except ValueError:
+                        pass
+                    else:
+                        if value_uuid.version == 4:
+                            if item not in mapped:
+                                mapped[item] = (
+                                    f"00000000-0000-4000-8000-{len(mapped) + 1:012x}"
+                                )
+                            result[key] = mapped[item]
+                            continue
+                result[key] = visit(item)
+            return result
+        if isinstance(node, list):
+            return [visit(item) for item in node]
+        return node
+
+    return visit(value)
 
 def main() -> int:
     parser = argparse.ArgumentParser()
@@ -48,7 +83,8 @@ def main() -> int:
         print("Non-browser paths found in browser-only snapshot", file=sys.stderr)
         return 1
 
-    normalized = json.dumps(payload, sort_keys=True, ensure_ascii=False, indent=2) + "\n"
+    normalized_payload = canonicalize_example_uuids(payload)
+    normalized = json.dumps(normalized_payload, sort_keys=True, ensure_ascii=False, indent=2) + "\n"
     path = Path(__file__).resolve().parents[2] / "docs/api/allauth-browser-openapi.json"
     if args.check:
         if not path.is_file():

@@ -16,7 +16,7 @@
               "display": "Magic Wizard",
               "email": "email@domain.org",
               "has_usable_password": true,
-              "id": "44054337-24f0-4c88-9ec3-e7b855122dd0",
+              "id": "00000000-0000-4000-8000-000000000001",
               "username": "wizard"
             }
           },
@@ -43,7 +43,7 @@
               "display": "Magic Wizard",
               "email": "email@domain.org",
               "has_usable_password": true,
-              "id": "44054337-24f0-4c88-9ec3-e7b855122dd0",
+              "id": "00000000-0000-4000-8000-000000000001",
               "username": "wizard"
             }
           },
@@ -76,7 +76,7 @@
               "display": "Magic Wizard",
               "email": "email@domain.org",
               "has_usable_password": true,
-              "id": "44054337-24f0-4c88-9ec3-e7b855122dd0",
+              "id": "00000000-0000-4000-8000-000000000001",
               "username": "wizard"
             }
           },
@@ -250,7 +250,7 @@
               "display": "Magic Wizard",
               "email": "email@domain.org",
               "has_usable_password": true,
-              "id": "44054337-24f0-4c88-9ec3-e7b855122dd0",
+              "id": "00000000-0000-4000-8000-000000000001",
               "username": "wizard"
             }
           },
@@ -458,7 +458,7 @@
           "display": "Magic Wizard",
           "email": "email@domain.org",
           "has_usable_password": true,
-          "id": "44054337-24f0-4c88-9ec3-e7b855122dd0",
+          "id": "00000000-0000-4000-8000-000000000001",
           "username": "wizard"
         }
       }
@@ -1321,7 +1321,7 @@
                       "display": "Magic Wizard",
                       "email": "email@domain.org",
                       "has_usable_password": true,
-                      "id": "44054337-24f0-4c88-9ec3-e7b855122dd0",
+                      "id": "00000000-0000-4000-8000-000000000001",
                       "username": "wizard"
                     }
                   },
@@ -3036,7 +3036,7 @@
           },
           "id": {
             "description": "The user ID.",
-            "example": "44054337-24f0-4c88-9ec3-e7b855122dd0",
+            "example": "00000000-0000-4000-8000-000000000001",
             "type": "string"
           },
           "username": {
